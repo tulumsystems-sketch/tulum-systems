@@ -1,15 +1,118 @@
 ---
+const links = [
+  { label: "Manifiesto", href: "#manifiesto" },
+  { label: "Productos", href: "#productos" },
+  { label: "Contacto", href: "#contacto" },
+];
 ---
 
-<nav class="fixed top-0 left-0 right-0 z-50 border-b border-white/10 bg-black/80 backdrop-blur-md">
-  <div class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-    <a href="/" class="text-xl font-bold tracking-tight text-white">
-      Tulum<span class="text-emerald-400">Systems</span>
+<header id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-700">
+  <nav
+    class="mx-auto flex max-w-7xl items-center justify-between px-6 py-6"
+    aria-label="Navegación principal"
+  >
+    <a href="/" class="flex items-center" aria-label="Tulum Systems — inicio">
+      <div class="h-7 w-24 overflow-hidden rounded-lg md:w-28">
+        <img
+          src="/logonuevo.png"
+          alt=""
+          class="h-full w-full object-cover object-center"
+          aria-hidden="true"
+        />
+      </div>
     </a>
-    <div class="flex items-center gap-8 text-sm text-zinc-400">
-      <a href="#services" class="transition-colors hover:text-white">Servicios</a>
-      <a href="#about" class="transition-colors hover:text-white">Nosotros</a>
-      <a href="#contact" class="transition-colors hover:text-white">Contacto</a>
-    </div>
+
+    <ul class="hidden items-center gap-10 md:flex">
+      {links.map((link) => (
+        <li>
+          <a
+            href={link.href}
+            class="nav-link text-sm font-medium tracking-wide text-white/70 uppercase transition-colors hover:text-white"
+          >
+            {link.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <button
+      id="mobile-toggle"
+      class="relative z-50 flex h-8 w-8 flex-col items-center justify-center gap-[5px] md:hidden"
+      aria-label="Abrir menú"
+      aria-controls="mobile-menu"
+      aria-expanded="false"
+      type="button"
+    >
+      <span class="hamburger-span h-px w-6 origin-center bg-white transition-all duration-300"></span>
+      <span class="hamburger-span h-px w-6 origin-center bg-white transition-all duration-300"></span>
+    </button>
+  </nav>
+
+  <div
+    id="mobile-menu"
+    class="fixed inset-0 z-40 flex translate-x-full flex-col items-center justify-center gap-10 bg-[#f7f6f2] transition-all duration-500 ease-in-out"
+    aria-hidden="true"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Menú de navegación"
+  >
+    {links.map((link) => (
+      <a
+        href={link.href}
+        class="text-3xl font-light tracking-wide text-warm transition-colors hover:text-gold"
+      >
+        {link.label}
+      </a>
+    ))}
   </div>
-</nav>
+</header>
+
+<script>
+  const nav = document.getElementById("navbar");
+  const toggle = document.getElementById("mobile-toggle");
+  const menu = document.getElementById("mobile-menu");
+
+  window.addEventListener(
+    "scroll",
+    () => {
+      if (window.scrollY > 80) {
+        nav.classList.add("scrolled");
+      } else {
+        nav.classList.remove("scrolled");
+      }
+    },
+    { passive: true },
+  );
+
+  if (toggle && menu) {
+    toggle.addEventListener("click", () => {
+      const isOpen = toggle.getAttribute("aria-expanded") === "true";
+      const next = !isOpen;
+      toggle.setAttribute("aria-expanded", String(next));
+      menu.setAttribute("aria-hidden", String(!next));
+      toggle.setAttribute("aria-label", next ? "Cerrar menú" : "Abrir menú");
+      menu.classList.toggle("translate-x-full", !next);
+      menu.classList.toggle("translate-x-0", next);
+      document.body.style.overflow = next ? "hidden" : "";
+      const spans = toggle.querySelectorAll("span");
+      spans[0].classList.toggle("translate-y-[7px]", next);
+      spans[0].classList.toggle("rotate-45", next);
+      spans[1].classList.toggle("-translate-y-[7px]", next);
+      spans[1].classList.toggle("-rotate-45", next);
+    });
+
+    menu.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        toggle.setAttribute("aria-expanded", "false");
+        menu.setAttribute("aria-hidden", "true");
+        menu.classList.add("translate-x-full");
+        menu.classList.remove("translate-x-0");
+        toggle.setAttribute("aria-label", "Abrir menú");
+        document.body.style.overflow = "";
+        const spans = toggle.querySelectorAll("span");
+        spans[0].classList.remove("translate-y-[7px]", "rotate-45");
+        spans[1].classList.remove("-translate-y-[7px]", "-rotate-45");
+      });
+    });
+  }
+</script>
