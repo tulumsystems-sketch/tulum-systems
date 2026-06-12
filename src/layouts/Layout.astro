@@ -1,18 +1,37 @@
 ---
-import '../styles/global.css';
+import "../styles/global.css";
+import Animations from "../components/Animations.astro";
 ---
 
 <!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Tulum Systems</title>
-	</head>
-	<body>
-		<slot />
-	</body>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="any" />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@200;300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <meta name="generator" content={Astro.generator} />
+    <meta
+      name="description"
+      content="Tulum Systems crea productos de software desde la Cordillera de los Andes. Ingeniería, diseño y visión."
+    />
+    <meta name="theme-color" content="#f7f6f2" />
+    <title>Tulum Systems</title>
+  </head>
+  <body>
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:rounded focus:bg-warm focus:px-6 focus:py-3 focus:text-sm focus:font-medium focus:text-[#f7f6f2] focus:outline-none"
+    >
+      Saltar al contenido principal
+    </a>
+    <slot />
+    <Animations />
+  </body>
 </html>
